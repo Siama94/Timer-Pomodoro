@@ -48,43 +48,9 @@ class ViewController: UIViewController {
     }()
     
     private lazy var timer = Timer()
+    private lazy var isTimerStarted = false
     private lazy var durationTimerWork = 10
     private lazy var shapeLayer = CAShapeLayer()
-    
-    
-    //MARK: - Actions
-    
-    private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
-    }
-    
-    @objc private func startButtonAction() {
-        
-        animation()
-        
-        startTimer()
-        
-    }
-    
-    @objc private func timerAction() {
-        
-        durationTimerWork -= 1
-        
-        func formatTime() -> String{
-                let minutes = Int(durationTimerWork) / 60 % 60
-                let seconds = Int(durationTimerWork) % 60
-                return String(format:"%02i:%02i", minutes, seconds)
-                
-            }
-        timerLabel.text = formatTime()
-        
-        if timerLabel.text == "00:00" {
-            timerLabel.text = "00:05"
-            infoLabel.text = "Rest"
-            durationTimerWork = 5
-            animation()
-        }
-    }
     
     //MARK: - Animation
     
@@ -114,6 +80,51 @@ class ViewController: UIViewController {
         animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = true
         shapeLayer.add(animation, forKey: "animation")
+    }
+    
+    
+    
+    //MARK: - Actions
+    
+    private func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func startButtonAction() {
+        startButton.isEnabled = true
+        
+        if !isTimerStarted {
+            animation()
+            startTimer()
+            isTimerStarted = true
+            startButton.setTitle("Пауза", for: .normal)
+            
+        }else {
+            timer.invalidate()
+            isTimerStarted = false
+            startButton.setTitle("Продолжить", for: .normal)
+        }
+        
+    }
+    
+    @objc private func timerAction() {
+        
+        durationTimerWork -= 1
+        
+        func formatTime() -> String{
+                let minutes = Int(durationTimerWork) / 60 % 60
+                let seconds = Int(durationTimerWork) % 60
+                return String(format:"%02i:%02i", minutes, seconds)
+                
+            }
+        timerLabel.text = formatTime()
+        
+        if timerLabel.text == "00:00" {
+            timerLabel.text = "00:05"
+            infoLabel.text = "Rest"
+            durationTimerWork = 5
+            animation()
+        }
     }
     
     
