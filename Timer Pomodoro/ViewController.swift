@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     private lazy var timerLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = "25:00"
+        label.text = "01:00"
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     }()
     
     private lazy var timer = Timer()
-    private lazy var durationTaimer = 1500
+    private lazy var durationTaimer = 60
     private lazy var shapeLayer = CAShapeLayer()
     
     
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
             }
         timerLabel.text = formatTime()
         
-        if durationTaimer == 0 {
+        if timerLabel.text == "00:00" {
             timer.invalidate()
         }
     }
