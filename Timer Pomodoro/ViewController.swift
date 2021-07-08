@@ -26,6 +26,16 @@ class ViewController: UIViewController {
         return imageView
     }()
     
+    private lazy var timerLabel: UILabel = {
+        var label = UILabel()
+        label.font = .systemFont(ofSize: 60)
+        label.text = "1"
+        label.textColor = .black
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     // MARK: - Lifecycle
     
@@ -58,8 +68,14 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             circleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             circleView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            circleView.heightAnchor.constraint(equalToConstant: 230),
-            circleView.widthAnchor.constraint(equalToConstant: 230)
+            circleView.heightAnchor.constraint(equalToConstant: 300),
+            circleView.widthAnchor.constraint(equalToConstant: 300)
+        ])
+        
+        circleView.addSubview(timerLabel)
+        NSLayoutConstraint.activate([
+            timerLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
+            timerLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
         ])
     }
     
