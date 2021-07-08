@@ -16,6 +16,7 @@ class ViewController: UIViewController {
         button.setTitle("Начать", for: .normal)
         button.backgroundColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(startButtonAction), for: .touchUpInside)
         return button
     }()
     
@@ -29,13 +30,34 @@ class ViewController: UIViewController {
     private lazy var timerLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = "1"
+        label.text = "10"
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    private lazy var timer = Timer()
+    private lazy var durationTaimer = 25
+    
+    
+    //MARK: - Actions
+    
+    @objc private func startButtonAction() {
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func timerAction() {
+        
+        durationTaimer -= 1
+        timerLabel.text = "\(durationTaimer)"
+        
+        if durationTaimer == 0 {
+            timer.invalidate()
+        }
+        
+    }
     
     // MARK: - Lifecycle
     
