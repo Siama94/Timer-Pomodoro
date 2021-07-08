@@ -8,7 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    // MARK: - Elements
+    
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 10
@@ -18,26 +19,47 @@ class ViewController: UIViewController {
         return button
     }()
     
+    private lazy var circleView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Circle")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
-    // MARK: - lifecycle
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupVew()
+        setupHierarchy()
         setupLayout()
     }
 
 
     // MARK: - Settings
     
+    private func setupHierarchy() {
+        
+        view.addSubview(startButton)
+    }
+    
     private func setupLayout() {
         view.addSubview(startButton)
         NSLayoutConstraint.activate([
             startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-        startButton.heightAnchor.constraint(equalToConstant: 50),
-        startButton.widthAnchor.constraint(equalToConstant: 150)
+            startButton.heightAnchor.constraint(equalToConstant: 45),
+            startButton.widthAnchor.constraint(equalToConstant: 130)
+        ])
+        
+        view.addSubview(circleView)
+        NSLayoutConstraint.activate([
+            circleView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            circleView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            circleView.heightAnchor.constraint(equalToConstant: 230),
+            circleView.widthAnchor.constraint(equalToConstant: 230)
         ])
     }
     
@@ -45,4 +67,6 @@ class ViewController: UIViewController {
         view.backgroundColor = .systemYellow
     }
 }
+
+    //MARK: - Actions
 
