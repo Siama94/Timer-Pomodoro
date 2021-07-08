@@ -105,6 +105,7 @@ class ViewController: UIViewController {
         circleView.layer.addSublayer(shapeLayer)
     }
     
+    
     private func animation() {
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
