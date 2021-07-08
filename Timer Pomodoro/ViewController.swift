@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.strokeEnd = 1
         shapeLayer.lineCap = CAShapeLayerLineCap.round
-        shapeLayer.strokeColor = UIColor.red.cgColor
+        shapeLayer.strokeColor = UIColor.blue.cgColor
         circleView.layer.addSublayer(shapeLayer)
     }
     
@@ -174,7 +174,7 @@ class ViewController: UIViewController {
     }
     
     private func setupVew() {
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .white
     }
 }
 
