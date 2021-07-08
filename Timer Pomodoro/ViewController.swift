@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     private lazy var timerLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = "10"
+        label.text = "\(durationTaimer)"
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,11 +39,14 @@ class ViewController: UIViewController {
     
     private lazy var timer = Timer()
     private lazy var durationTaimer = 25
+    private lazy var shapeLayer = CAShapeLayer()
     
     
     //MARK: - Actions
     
     @objc private func startButtonAction() {
+        
+        animation()
         
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
     }
@@ -56,10 +59,44 @@ class ViewController: UIViewController {
         if durationTaimer == 0 {
             timer.invalidate()
         }
-        
     }
     
+    //MARK: - Animation
+    
+    private func circleAnimation() {
+        
+        let center = CGPoint(x: circleView.frame.width / 2, y: circleView.frame.height / 2)
+        let endAngle = (-CGFloat.pi / 2)
+        let startAngle = 2 * CGFloat.pi + endAngle
+    
+        let cirlePath = UIBezierPath(arcCenter: center, radius: 138, startAngle: startAngle, endAngle: endAngle, clockwise: false)
+        
+        shapeLayer.path = cirlePath.cgPath
+        shapeLayer.lineWidth = 21
+        shapeLayer.fillColor = UIColor.clear.cgColor
+        shapeLayer.strokeEnd = 1
+        shapeLayer.lineCap = CAShapeLayerLineCap.round
+        shapeLayer.strokeColor = UIColor.red.cgColor
+        circleView.layer.addSublayer(shapeLayer)
+    }
+    
+    private func animation() {
+        
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.toValue = 0
+        animation.duration = CFTimeInterval(durationTaimer)
+        animation.fillMode = CAMediaTimingFillMode.forwards
+        animation.isRemovedOnCompletion = true
+        shapeLayer.add(animation, forKey: "animation")
+    }
+    
+    
     // MARK: - Lifecycle
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.circleAnimation()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
