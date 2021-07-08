@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     private lazy var timerLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = "01:00"
+        label.text = "00:10"
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     }()
     
     private lazy var timer = Timer()
-    private lazy var durationTaimer = 60
+    private lazy var durationTimerWork = 10
     private lazy var shapeLayer = CAShapeLayer()
     
     
@@ -53,12 +53,12 @@ class ViewController: UIViewController {
     
     @objc private func timerAction() {
         
-        durationTaimer -= 1
+        durationTimerWork -= 1
         
         
         func formatTime() -> String{
-                let minutes = Int(durationTaimer) / 60 % 60
-                let seconds = Int(durationTaimer) % 60
+                let minutes = Int(durationTimerWork) / 60 % 60
+                let seconds = Int(durationTimerWork) % 60
                 return String(format:"%02i:%02i", minutes, seconds)
                 
             }
@@ -66,6 +66,9 @@ class ViewController: UIViewController {
         
         if timerLabel.text == "00:00" {
             timer.invalidate()
+            timerLabel.text = "00:05"
+            durationTimerWork = 5
+            animation()
         }
     }
     
@@ -92,7 +95,7 @@ class ViewController: UIViewController {
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.toValue = 0
-        animation.duration = CFTimeInterval(durationTaimer)
+        animation.duration = CFTimeInterval(durationTimerWork)
         animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = true
         shapeLayer.add(animation, forKey: "animation")
