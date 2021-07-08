@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     private lazy var timerLabel: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = "00:10"
+        label.text = "25:00"
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,7 +49,8 @@ class ViewController: UIViewController {
     
     private lazy var timer = Timer()
     private lazy var isTimerStarted = false
-    private lazy var durationTimerWork = 10
+    private lazy var isTimerWork = true
+    private lazy var durationTimerWork = 1500
     private lazy var shapeLayer = CAShapeLayer()
     
     //MARK: - Animation
@@ -59,7 +60,7 @@ class ViewController: UIViewController {
         let center = CGPoint(x: circleView.frame.width / 2, y: circleView.frame.height / 2)
         let endAngle = (-CGFloat.pi / 2)
         let startAngle = 2 * CGFloat.pi + endAngle
-    
+        
         let cirlePath = UIBezierPath(arcCenter: center, radius: 138, startAngle: startAngle, endAngle: endAngle, clockwise: false)
         
         shapeLayer.path = cirlePath.cgPath
@@ -67,10 +68,9 @@ class ViewController: UIViewController {
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.strokeEnd = 1
         shapeLayer.lineCap = CAShapeLayerLineCap.round
-        shapeLayer.strokeColor = UIColor.blue.cgColor
+        shapeLayer.strokeColor = UIColor.orange.cgColor
         circleView.layer.addSublayer(shapeLayer)
     }
-    
     
     private func animation() {
         
@@ -78,11 +78,10 @@ class ViewController: UIViewController {
         animation.toValue = 0
         animation.duration = CFTimeInterval(durationTimerWork)
         animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = true
+        animation.isRemovedOnCompletion = false
         shapeLayer.add(animation, forKey: "animation")
+        
     }
-    
-    
     
     //MARK: - Actions
     
@@ -99,7 +98,7 @@ class ViewController: UIViewController {
             isTimerStarted = true
             startButton.setTitle("Пауза", for: .normal)
             
-        }else {
+        } else {
             timer.invalidate()
             isTimerStarted = false
             startButton.setTitle("Продолжить", for: .normal)
@@ -112,17 +111,17 @@ class ViewController: UIViewController {
         durationTimerWork -= 1
         
         func formatTime() -> String{
-                let minutes = Int(durationTimerWork) / 60 % 60
-                let seconds = Int(durationTimerWork) % 60
-                return String(format:"%02i:%02i", minutes, seconds)
-                
-            }
+            let minutes = Int(durationTimerWork) / 60 % 60
+            let seconds = Int(durationTimerWork) % 60
+            return String(format:"%02i:%02i", minutes, seconds)
+            
+        }
         timerLabel.text = formatTime()
         
         if timerLabel.text == "00:00" {
             timerLabel.text = "00:05"
             infoLabel.text = "Rest"
-            durationTimerWork = 5
+            durationTimerWork = 300
             animation()
         }
     }
@@ -142,8 +141,8 @@ class ViewController: UIViewController {
         setupHierarchy()
         setupLayout()
     }
-
-
+    
+    
     // MARK: - Settings
     
     private func setupHierarchy() {
@@ -189,6 +188,3 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
     }
 }
-
-    //MARK: - Actions
-
