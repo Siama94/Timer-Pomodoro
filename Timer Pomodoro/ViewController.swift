@@ -54,17 +54,21 @@ class ViewController: UIViewController {
     
     //MARK: - Actions
     
+    private func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+    }
+    
     @objc private func startButtonAction() {
         
         animation()
         
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        startTimer()
+        
     }
     
     @objc private func timerAction() {
         
         durationTimerWork -= 1
-        
         
         func formatTime() -> String{
                 let minutes = Int(durationTimerWork) / 60 % 60
@@ -75,8 +79,8 @@ class ViewController: UIViewController {
         timerLabel.text = formatTime()
         
         if timerLabel.text == "00:00" {
-            timer.invalidate()
             timerLabel.text = "00:05"
+            infoLabel.text = "Rest"
             durationTimerWork = 5
             animation()
         }
