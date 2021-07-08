@@ -37,6 +37,16 @@ class ViewController: UIViewController {
         return label
     }()
     
+    private lazy var infoLabel: UILabel = {
+        var label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        label.text = "Hard work"
+        label.textColor = .black
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var timer = Timer()
     private lazy var durationTimerWork = 10
     private lazy var shapeLayer = CAShapeLayer()
@@ -123,12 +133,21 @@ class ViewController: UIViewController {
     private func setupHierarchy() {
         
         view.addSubview(startButton)
+        
     }
     
     private func setupLayout() {
+        
+        view.addSubview(infoLabel)
+        NSLayoutConstraint.activate([
+            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 325),
+            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
         view.addSubview(startButton)
         NSLayoutConstraint.activate([
-            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            startButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70),
             startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             startButton.heightAnchor.constraint(equalToConstant: 45),
             startButton.widthAnchor.constraint(equalToConstant: 130)
@@ -147,6 +166,7 @@ class ViewController: UIViewController {
             timerLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
             timerLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
         ])
+        
     }
     
     private func setupVew() {
