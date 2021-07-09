@@ -8,6 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
     // MARK: - Elements
     
     private lazy var startButton: UIButton = {
@@ -27,7 +28,7 @@ class ViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var timerLabel: UILabel = {
+    private lazy var timerLabelWork: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
         label.text = "25:00"
@@ -49,8 +50,7 @@ class ViewController: UIViewController {
     
     private lazy var timer = Timer()
     private lazy var isTimerStarted = false
-    private lazy var isTimerWork = true
-    private lazy var durationTimerWork = 1500
+    private lazy var durationTimer = 1500
     private lazy var shapeLayer = CAShapeLayer()
     
     //MARK: - Animation
@@ -76,11 +76,10 @@ class ViewController: UIViewController {
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.toValue = 0
-        animation.duration = CFTimeInterval(durationTimerWork)
+        animation.duration = CFTimeInterval(durationTimer)
         animation.fillMode = CAMediaTimingFillMode.forwards
         animation.isRemovedOnCompletion = false
         shapeLayer.add(animation, forKey: "animation")
-        
     }
     
     //MARK: - Actions
@@ -103,29 +102,34 @@ class ViewController: UIViewController {
             isTimerStarted = false
             startButton.setTitle("Продолжить", for: .normal)
         }
-        
     }
     
     @objc private func timerAction() {
         
-        durationTimerWork -= 1
+        durationTimer -= 1
         
         func formatTime() -> String{
-            let minutes = Int(durationTimerWork) / 60 % 60
-            let seconds = Int(durationTimerWork) % 60
+            let minutes = Int(durationTimer) / 60 % 60
+            let seconds = Int(durationTimer) % 60
             return String(format:"%02i:%02i", minutes, seconds)
             
         }
-        timerLabel.text = formatTime()
+        timerLabelWork.text = formatTime()
         
-        if timerLabel.text == "00:00" {
-            timerLabel.text = "00:05"
+        if timerLabelWork.text == "00:00" && infoLabel.text == "Hard work" {
+            timerLabelWork.text = "05:00"
             infoLabel.text = "Rest"
-            durationTimerWork = 300
+            durationTimer = 300
+            animation()
+        }
+        
+        if timerLabelWork.text == "00:00" && infoLabel.text == "Rest" {
+            timerLabelWork.text = "25:00"
+            infoLabel.text = "Hard work"
+            durationTimer = 1500
             animation()
         }
     }
-    
     
     // MARK: - Lifecycle
     
@@ -142,13 +146,14 @@ class ViewController: UIViewController {
         setupLayout()
     }
     
-    
     // MARK: - Settings
     
     private func setupHierarchy() {
         
         view.addSubview(startButton)
-        
+        view.addSubview(infoLabel)
+        view.addSubview(circleView)
+        circleView.addSubview(timerLabelWork)
     }
     
     private func setupLayout() {
@@ -176,12 +181,11 @@ class ViewController: UIViewController {
             circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
         
-        circleView.addSubview(timerLabel)
+        circleView.addSubview(timerLabelWork)
         NSLayoutConstraint.activate([
-            timerLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            timerLabel.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
+            timerLabelWork.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
+            timerLabelWork.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
         ])
-        
     }
     
     private func setupVew() {
