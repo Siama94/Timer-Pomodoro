@@ -150,28 +150,26 @@ class ViewController: UIViewController {
     
     @objc private func timerAction() {
         
-        durationTimer -= 1
-        
-        timerLabelWork.text = formatTime()
+      
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Hard work" {
-            timer.invalidate()
+            
             durationTimer = 5
             timerLabelWork.text = formatTime()
             infoLabel.text = "Rest"
             isAnimationStarted = false
-            
+            startAndResumeAnimation()
             isTimerStarted = false
             isWorkedTime = false
         }
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Rest" {
-            timer.invalidate()
+            
             durationTimer = 10
             timerLabelWork.text = formatTime()
             infoLabel.text = "Hard work"
             isAnimationStarted = false
-            
+            startAndResumeAnimation()
             isTimerStarted = false
             isWorkedTime = true
             
