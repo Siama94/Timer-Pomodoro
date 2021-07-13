@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     private lazy var timerLabelWork: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = "25:00"
+        label.text = formatTime()
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ class ViewController: UIViewController {
     
     private lazy var timer = Timer()
     private lazy var isTimerStarted = false
-    private lazy var durationTimer = 1500
+    private lazy var durationTimer = 10
     private lazy var shapeLayer = CAShapeLayer()
     
     //MARK: - Animation
@@ -104,29 +104,30 @@ class ViewController: UIViewController {
         }
     }
     
+    private func formatTime() -> String{
+        let minutes = Int(durationTimer) / 60 % 60
+        let seconds = Int(durationTimer) % 60
+        return String(format:"%02i:%02i", minutes, seconds)
+        
+    }
+    
     @objc private func timerAction() {
         
         durationTimer -= 1
         
-        func formatTime() -> String{
-            let minutes = Int(durationTimer) / 60 % 60
-            let seconds = Int(durationTimer) % 60
-            return String(format:"%02i:%02i", minutes, seconds)
-            
-        }
         timerLabelWork.text = formatTime()
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Hard work" {
-            timerLabelWork.text = "05:00"
+            timerLabelWork.text = formatTime()
             infoLabel.text = "Rest"
-            durationTimer = 300
+            durationTimer = 5
             animation()
         }
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Rest" {
-            timerLabelWork.text = "25:00"
+            timerLabelWork.text = formatTime()
             infoLabel.text = "Hard work"
-            durationTimer = 1500
+            durationTimer = 10
             animation()
         }
     }
