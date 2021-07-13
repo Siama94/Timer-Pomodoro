@@ -125,7 +125,7 @@ class ViewController: UIViewController {
     
     
     @objc private func startButtonAction() {
-        startButton.isEnabled = true
+      
         
         if !isTimerStarted {
             
@@ -150,12 +150,8 @@ class ViewController: UIViewController {
     
     @objc private func timerAction() {
         
-        durationTimer -= 1
-        
-        timerLabelWork.text = formatTime()
-        
         if timerLabelWork.text == "00:00" && infoLabel.text == "Hard work" {
-            timer.invalidate()
+            
             durationTimer = 5
             timerLabelWork.text = formatTime()
             infoLabel.text = "Rest"
@@ -166,7 +162,7 @@ class ViewController: UIViewController {
         }
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Rest" {
-            timer.invalidate()
+            
             durationTimer = 10
             timerLabelWork.text = formatTime()
             infoLabel.text = "Hard work"
