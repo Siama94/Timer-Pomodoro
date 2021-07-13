@@ -50,6 +50,8 @@ class ViewController: UIViewController {
     
     private lazy var timer = Timer()
     private lazy var isTimerStarted = false
+    private lazy var isAnimationStarted = false
+    private lazy var isWorkedTime = true
     private lazy var durationTimer = 10
     private lazy var shapeLayer = CAShapeLayer()
     
@@ -75,24 +77,58 @@ class ViewController: UIViewController {
     private func animation() {
         
         let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 1
         animation.toValue = 0
-        animation.duration = CFTimeInterval(durationTimer)
         animation.fillMode = CAMediaTimingFillMode.forwards
-        animation.isRemovedOnCompletion = false
+        animation.isRemovedOnCompletion = true
+        animation.duration = CFTimeInterval(durationTimer)
         shapeLayer.add(animation, forKey: "animation")
+        isAnimationStarted = true
     }
+    
+    private func pauseAnimation() {
+        let pauseTime = shapeLayer.convertTime(CACurrentMediaTime(), from: nil)
+        shapeLayer.speed = 0.0
+        shapeLayer.timeOffset = pauseTime
+    }
+
+    private func resumeAnimation() {
+        let pausedTime = shapeLayer.timeOffset
+        shapeLayer.speed = 1.0
+        shapeLayer.timeOffset = 0.0
+        shapeLayer.beginTime = 0.0
+        let timeSincePaused = shapeLayer.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
+        shapeLayer.beginTime = timeSincePaused
+    }
+
+    private func startAndResumeAnimation() {
+        if !isAnimationStarted {
+            animation()
+        } else {
+            resumeAnimation()
+        }
+    }
+
     
     //MARK: - Actions
     
     private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        startAndResumeAnimation()
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(tickTimer), userInfo: nil, repeats: true)
     }
+    
+    @objc private func tickTimer() {
+        durationTimer -= 1
+        timerLabelWork.text = formatTime()
+        timerAction()
+    }
+    
     
     @objc private func startButtonAction() {
         startButton.isEnabled = true
         
         if !isTimerStarted {
-            animation()
+            
             startTimer()
             isTimerStarted = true
             startButton.setTitle("Пауза", for: .normal)
@@ -101,6 +137,7 @@ class ViewController: UIViewController {
             timer.invalidate()
             isTimerStarted = false
             startButton.setTitle("Продолжить", for: .normal)
+            pauseAnimation()
         }
     }
     
@@ -118,17 +155,26 @@ class ViewController: UIViewController {
         timerLabelWork.text = formatTime()
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Hard work" {
+            timer.invalidate()
+            durationTimer = 5
             timerLabelWork.text = formatTime()
             infoLabel.text = "Rest"
-            durationTimer = 5
-            animation()
+            isAnimationStarted = false
+            
+            isTimerStarted = false
+            isWorkedTime = false
         }
         
         if timerLabelWork.text == "00:00" && infoLabel.text == "Rest" {
+            timer.invalidate()
+            durationTimer = 10
             timerLabelWork.text = formatTime()
             infoLabel.text = "Hard work"
-            durationTimer = 10
-            animation()
+            isAnimationStarted = false
+            
+            isTimerStarted = false
+            isWorkedTime = true
+            
         }
     }
     
