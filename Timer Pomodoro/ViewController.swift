@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     private lazy var timerLabelWork: UILabel = {
         var label = UILabel()
         label.font = .systemFont(ofSize: 60)
-        label.text = formatTime()
+        label.text = formatTime(from: durationTimer)
         label.textColor = .black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -110,6 +110,33 @@ class ViewController: UIViewController {
     }
 
     
+    private func one() {
+        infoLabel.text = "Hard work"
+        startButton.setTitle("Пауза", for: .normal)
+    }
+ 
+    private func two() {
+        infoLabel.text = "Rest"
+        startButton.setTitle("Пауза", for: .normal)
+    }
+    
+    private func three() {
+        infoLabel.text = "Hard work"
+        startButton.setTitle("Начать", for: .normal)
+    }
+    
+    private func four() {
+        infoLabel.text = "Rest"
+        startButton.setTitle("Начать", for: .normal)
+    }
+    
+    private func configureButtonsState() {
+        if isTimerStarted {
+            isWorkedTime ? one() : two()
+        } else {
+            isWorkedTime ? three() : four()
+        }
+    }
     //MARK: - Actions
     
     private func startTimer() {
@@ -119,7 +146,7 @@ class ViewController: UIViewController {
     
     @objc private func tickTimer() {
         durationTimer -= 1
-        timerLabelWork.text = formatTime()
+        timerLabelWork.text = formatTime(from: durationTimer)
         timerAction()
     }
     
@@ -131,17 +158,17 @@ class ViewController: UIViewController {
             
             startTimer()
             isTimerStarted = true
-            startButton.setTitle("Пауза", for: .normal)
+            configureButtonsState()
             
         } else {
             timer.invalidate()
             isTimerStarted = false
-            startButton.setTitle("Продолжить", for: .normal)
+            configureButtonsState()
             pauseAnimation()
         }
     }
     
-    private func formatTime() -> String{
+    private func formatTime(from time: Int) -> String{
         let minutes = Int(durationTimer) / 60 % 60
         let seconds = Int(durationTimer) % 60
         return String(format:"%02i:%02i", minutes, seconds)
@@ -150,24 +177,25 @@ class ViewController: UIViewController {
     
     @objc private func timerAction() {
         
-        if timerLabelWork.text == "00:00" && infoLabel.text == "Hard work" {
-            
+        if durationTimer == 0 && isWorkedTime {
+            timer.invalidate()
             durationTimer = 5
-            timerLabelWork.text = formatTime()
-            infoLabel.text = "Rest"
+            timerLabelWork.text = formatTime(from: durationTimer)
+            four()
             isAnimationStarted = false
-            
+            circleAnimation()
             isTimerStarted = false
             isWorkedTime = false
+            
         }
         
-        if timerLabelWork.text == "00:00" && infoLabel.text == "Rest" {
-            
+        if durationTimer == 0 && !isWorkedTime {
+            timer.invalidate()
             durationTimer = 10
-            timerLabelWork.text = formatTime()
-            infoLabel.text = "Hard work"
+            timerLabelWork.text = formatTime(from: durationTimer)
+            three()
             isAnimationStarted = false
-            
+            circleAnimation()
             isTimerStarted = false
             isWorkedTime = true
             
