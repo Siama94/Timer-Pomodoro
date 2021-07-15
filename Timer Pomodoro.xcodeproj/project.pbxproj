@@ -11,7 +11,6 @@
 		5DEAE8672696AE4D00B217C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEAE8662696AE4D00B217C2 /* SceneDelegate.swift */; };
 		5DEAE8692696AE4D00B217C2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEAE8682696AE4D00B217C2 /* ViewController.swift */; };
 		5DEAE86E2696AE5400B217C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DEAE86D2696AE5400B217C2 /* Assets.xcassets */; };
-		5DEAE8712696AE5400B217C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DEAE86F2696AE5400B217C2 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,7 +19,6 @@
 		5DEAE8662696AE4D00B217C2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5DEAE8682696AE4D00B217C2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5DEAE86D2696AE5400B217C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5DEAE8702696AE5400B217C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5DEAE8722696AE5400B217C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,7 +56,6 @@
 				5DEAE8662696AE4D00B217C2 /* SceneDelegate.swift */,
 				5DEAE8682696AE4D00B217C2 /* ViewController.swift */,
 				5DEAE86D2696AE5400B217C2 /* Assets.xcassets */,
-				5DEAE86F2696AE5400B217C2 /* LaunchScreen.storyboard */,
 				5DEAE8722696AE5400B217C2 /* Info.plist */,
 			);
 			path = "Timer Pomodoro";
@@ -121,7 +118,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DEAE8712696AE5400B217C2 /* LaunchScreen.storyboard in Resources */,
 				5DEAE86E2696AE5400B217C2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,17 +136,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		5DEAE86F2696AE5400B217C2 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5DEAE8702696AE5400B217C2 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5DEAE8732696AE5400B217C2 /* Debug */ = {
