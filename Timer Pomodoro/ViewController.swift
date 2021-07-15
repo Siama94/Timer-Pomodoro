@@ -231,9 +231,9 @@ class ViewController: UIViewController {
         
         view.addSubview(infoLabel)
         NSLayoutConstraint.activate([
-            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 325),
-            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            infoLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 200),
+            infoLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor, constant: 10),
+            infoLabel.trailingAnchor.constraint(equalTo: circleView.trailingAnchor, constant: -10)
         ])
         
         view.addSubview(startButton)
