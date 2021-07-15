@@ -16,8 +16,11 @@ class ViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.setTitle("Начать", for: .normal)
         button.backgroundColor = .black
+        button.titleLabel?.font = .systemFont(ofSize: 23, weight: .medium)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(startButtonAction), for: .touchUpInside)
+        /* button.heightAnchor.constraint(equalTo: button.heightAnchor, multiplier: 1).isActive = true
+        button.widthAnchor.constraint(equalTo: button.widthAnchor, multiplier: 2).isActive = true */
         return button
     }()
     
@@ -54,6 +57,44 @@ class ViewController: UIViewController {
     private lazy var isWorkedTime = true
     private lazy var durationTimer = 10
     private lazy var shapeLayer = CAShapeLayer()
+    
+    private lazy var parentStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .vertical
+        stackView.spacing = 80
+        
+        return stackView
+    }()
+    
+    private lazy var litlleStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .vertical
+        stackView.spacing = 80
+        
+        return stackView
+    }()
+    
+    private lazy var bigStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .vertical
+        stackView.spacing = 80
+        
+        return stackView
+    }()
+    
+    private func createStackview() -> UIStackView {
+        let stackView = UIStackView()
+        
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        
+        return stackView
+    }
+    
+    private lazy var littleStackViewTwo = createStackview()
     
     //MARK: - Animation
     
@@ -212,23 +253,53 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupVew()
         setupHierarchy()
         setupLayout()
+        setupVew()
     }
     
     // MARK: - Settings
     
     private func setupHierarchy() {
         
-        view.addSubview(startButton)
+        view.addSubview(parentStackView)
+        
+        parentStackView.addArrangedSubview(startButton)
+        parentStackView.addArrangedSubview(bigStackView)
+        
+        bigStackView.addArrangedSubview(littleStackViewTwo)
+        bigStackView.addArrangedSubview(circleView)
+        
+        
+        littleStackViewTwo.addArrangedSubview(infoLabel)
+        littleStackViewTwo.addArrangedSubview(timerLabelWork)
+        
+        /*
         view.addSubview(infoLabel)
         view.addSubview(circleView)
         circleView.addSubview(timerLabelWork)
+ */
+ 
     }
     
     private func setupLayout() {
         
+        parentStackView.translatesAutoresizingMaskIntoConstraints = false
+        parentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 18).isActive = true
+        parentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -18).isActive = true
+        parentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        
+        littleStackViewTwo.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        
+   
+        circleView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        circleView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        
+        
+        startButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        startButton.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        
+        /*
         view.addSubview(infoLabel)
         NSLayoutConstraint.activate([
             infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 325),
@@ -257,6 +328,7 @@ class ViewController: UIViewController {
             timerLabelWork.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
             timerLabelWork.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
         ])
+         */
     }
     
     private func setupVew() {
