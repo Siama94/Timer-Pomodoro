@@ -203,6 +203,14 @@ class ViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
+    private lazy var timerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 80
+        return stackView
+    }()
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -217,23 +225,32 @@ class ViewController: UIViewController {
         setupLayout()
     }
     
+    
+    
     // MARK: - Settings
     
     private func setupHierarchy() {
         
         view.addSubview(startButton)
-        view.addSubview(infoLabel)
+        view.addSubview(timerStackView)
+        timerStackView.addArrangedSubview(infoLabel)
+        timerStackView.addArrangedSubview(timerLabelWork)
         view.addSubview(circleView)
-        circleView.addSubview(timerLabelWork)
+        
     }
     
     private func setupLayout() {
         
-        view.addSubview(infoLabel)
+        timerStackView.translatesAutoresizingMaskIntoConstraints = false
+        infoLabel.translatesAutoresizingMaskIntoConstraints = false
+      
+        
+        timerStackView.addArrangedSubview(infoLabel)
         NSLayoutConstraint.activate([
-            infoLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 325),
-            infoLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            
+            infoLabel.topAnchor.constraint(equalTo: timerStackView.topAnchor, constant: 10),
+            infoLabel.leadingAnchor.constraint(equalTo: timerStackView.leadingAnchor, constant: 10),
+            infoLabel.trailingAnchor.constraint(equalTo: timerStackView.trailingAnchor, constant: -10)
         ])
         
         view.addSubview(startButton)
@@ -252,10 +269,10 @@ class ViewController: UIViewController {
             circleView.widthAnchor.constraint(equalToConstant: 300)
         ])
         
-        circleView.addSubview(timerLabelWork)
+        timerStackView.addArrangedSubview(timerLabelWork)
         NSLayoutConstraint.activate([
-            timerLabelWork.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),
-            timerLabelWork.centerYAnchor.constraint(equalTo: circleView.centerYAnchor),
+            timerLabelWork.centerXAnchor.constraint(equalTo: timerStackView.centerXAnchor),
+            timerLabelWork.centerYAnchor.constraint(equalTo: timerStackView.centerYAnchor),
         ])
     }
     
