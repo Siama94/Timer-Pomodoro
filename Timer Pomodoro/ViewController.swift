@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     
     private lazy var infoLabel: UILabel = {
         var label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 25)
         label.text = "Hard work"
         label.textColor = .black
         label.textAlignment = .center
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     private lazy var timer = Timer()
     private lazy var isTimerStarted = false
     private lazy var isAnimationStarted = false
-    private lazy var isWorkedTime = true
+    private lazy var isHardWorkMode = true
     private lazy var durationTimer = 10
     private lazy var shapeLayer = CAShapeLayer()
     
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
         isAnimationStarted = true
     }
     
-    private func pauseAnimation() {
+    private func stopAnimation() {
         let pauseTime = shapeLayer.convertTime(CACurrentMediaTime(), from: nil)
         shapeLayer.speed = 0.0
         shapeLayer.timeOffset = pauseTime
@@ -109,42 +109,45 @@ class ViewController: UIViewController {
         }
     }
 
+  
+    //MARK: - Private func (mode of Timer)
     
-    private func one() {
+    private func workPause() {
         infoLabel.text = "Hard work"
         startButton.setTitle("Пауза", for: .normal)
     }
  
-    private func two() {
+    private func restPause() {
         infoLabel.text = "Rest"
         startButton.setTitle("Пауза", for: .normal)
     }
     
-    private func three() {
+    private func workStart() {
         infoLabel.text = "Hard work"
         startButton.setTitle("Начать", for: .normal)
     }
     
-    private func four() {
+    private func restStart() {
         infoLabel.text = "Rest"
         startButton.setTitle("Начать", for: .normal)
     }
     
-    private func configureButtonsState() {
+    private func modeSetting() {
         if isTimerStarted {
-            isWorkedTime ? one() : two()
+            isHardWorkMode ? workPause() : restPause()
         } else {
-            isWorkedTime ? three() : four()
+            isHardWorkMode ? workStart() : restStart()
         }
     }
+    
     //MARK: - Actions
     
     private func startTimer() {
         startAndResumeAnimation()
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(tickTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerSetting), userInfo: nil, repeats: true)
     }
     
-    @objc private func tickTimer() {
+    @objc private func timerSetting() {
         durationTimer -= 1
         timerLabelWork.text = formatTime(from: durationTimer)
         timerAction()
@@ -153,18 +156,15 @@ class ViewController: UIViewController {
     
     @objc private func startButtonAction() {
       
-        
         if !isTimerStarted {
-            
             startTimer()
             isTimerStarted = true
-            configureButtonsState()
-            
+            modeSetting()
         } else {
             timer.invalidate()
             isTimerStarted = false
-            configureButtonsState()
-            pauseAnimation()
+            modeSetting()
+            stopAnimation()
         }
     }
     
@@ -172,33 +172,30 @@ class ViewController: UIViewController {
         let minutes = Int(durationTimer) / 60 % 60
         let seconds = Int(durationTimer) % 60
         return String(format:"%02i:%02i", minutes, seconds)
-        
     }
     
     @objc private func timerAction() {
         
-        if durationTimer == 0 && isWorkedTime {
+        if durationTimer == 0 && isHardWorkMode {
             timer.invalidate()
             durationTimer = 5
             timerLabelWork.text = formatTime(from: durationTimer)
-            four()
-            isAnimationStarted = false
+            restStart()
             circleAnimation()
+            isAnimationStarted = false
             isTimerStarted = false
-            isWorkedTime = false
-            
+            isHardWorkMode = false
         }
         
-        if durationTimer == 0 && !isWorkedTime {
+        if durationTimer == 0 && !isHardWorkMode {
             timer.invalidate()
             durationTimer = 10
             timerLabelWork.text = formatTime(from: durationTimer)
-            three()
-            isAnimationStarted = false
+            workStart()
             circleAnimation()
+            isAnimationStarted = false
             isTimerStarted = false
-            isWorkedTime = true
-            
+            isHardWorkMode = true
         }
     }
     
@@ -231,7 +228,7 @@ class ViewController: UIViewController {
         
         view.addSubview(infoLabel)
         NSLayoutConstraint.activate([
-            infoLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 200),
+            infoLabel.topAnchor.constraint(equalTo: circleView.topAnchor, constant: 180),
             infoLabel.leadingAnchor.constraint(equalTo: circleView.leadingAnchor, constant: 10),
             infoLabel.trailingAnchor.constraint(equalTo: circleView.trailingAnchor, constant: -10)
         ])
